@@ -1,33 +1,38 @@
 # Aplicación de chat en tiempo real
 
-> Puedes crear tus propios chats con una contraseña, dónde otros usuarios podrán ingresar siempre que tengan la contraseña.
+> Puedes crear tus propios chats privados e invitando a quien quieras, donde otros usuarios podrán ingresar siempre que tengan la contraseña del chat.
 
 ### Notas:
 - NO está desplegada en ningún sitio
 - Está creada con PostgreSQL(Base de datos), ReactJS(Front-end) y ExpressJS(servidor)
 
-## 1- Inicializar proyecto
 
-- a. Front-end:
-- 
-``js
-    npm i vite@latest
-``
+## 1- Inicializar proyecto  
 
-``js
-    npm i react-router-dom socket.io-client
-``
+1- clonar repositorio
+```js
+git clone https://github.com/dariomvg/chats-in-realtime.git
+```
 
+2- ingresar a client en la carpeta raiz del proyecto
+```js
+cd nombre-repositorio/client
+```
+2.1 - ingresar en la carpeta raiz
+```js
+cd nombre-repositorio
+```
 
-  
+3- instalar en ambas carpetas(raiz y client)
+```js
+npm install
+```
 
-export const sql = postgres({
-    host: "localhost",
-    port: 5432,
-    database: "realtime",
-    username: "postgres",
-    password: "1917",
-  });
+## 2- Back-end
+
+### Necesitas crear las bases de datos, con postgreSQL: 
+
+```js
 CREATE TABLE chats (  
     id SERIAL NOT NULL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -47,11 +52,17 @@ CREATE TABLE messages (
     username VARCHAR(255) NOT NULL,
     messages VARCHAR(255) NOT NULL
 );
+```
 
+### En el archivo de configDB.js esta la configuración de la base de datos, debes reemplazar con tus datos:
 
-
-
-
-
-
-
+```js
+// reemplazar con tus datos
+export const sql = postgres({
+    host: "***",
+    port: ***,
+    database: "***",
+    username: "***",
+    password: "***",
+  });
+```
