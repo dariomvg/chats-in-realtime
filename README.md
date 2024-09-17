@@ -66,3 +66,17 @@ export const sql = postgres({
     password: "***",
   });
 ```
+
+## 3- Visitar
+
+### En la raiz del proyecto y en client ejecutar:
+
+```js
+    npm run dev
+```
+### visitar: http://localhost:5173
+
+
+
+
+
