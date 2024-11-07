@@ -1,5 +1,7 @@
 # Aplicación de chat en tiempo real
 
+<img src="https://i.imgur.com/QfFDnTa.png" title="source: imgur.com" />
+
 > Puedes crear tus propios chats privados e invitando a quien quieras, donde otros usuarios podrán ingresar siempre que tengan la contraseña del chat.
 
 ### Notas:
