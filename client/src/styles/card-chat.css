@@ -1,0 +1,32 @@
+.card {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #646cff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .header-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .icon-delete {
+    cursor: pointer;
+  }
+  
+  .link-card {
+    color: #808080;
+    text-decoration: none;
+  }
+  
+  .link-card:hover {
+      color: #fff;
+    text-decoration: underline;
+  
+  }

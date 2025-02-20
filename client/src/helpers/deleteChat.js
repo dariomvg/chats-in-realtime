@@ -1,10 +1,10 @@
-export const removeChat = async (id) => {
-    const response = await fetch("http://localhost:4000/delete-chat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json", 
-          },
-          body: JSON.stringify({ id })
-    });
-    return response; 
-}
+import { URL_API } from "../utils/url_api";
+
+export const removeChat = async (id, username) => {
+  const response = await fetch(
+    `${URL_API}/delete-chat?id=${id}&username=${username}`,
+    { method: "DELETE" }
+  );
+  const res = await response.json(); 
+  return res;
+};

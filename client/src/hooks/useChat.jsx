@@ -1,73 +1,70 @@
 import { useState, useEffect } from "react";
 import { getChatId } from "../helpers/getChatId";
 import io from "socket.io-client";
-import { useHandleChat } from "../contexts/ContextChat";
+import { useHandleUser } from "../contexts/ContextChat";
 const socket = io("/");
 
 export const useChat = (chatId) => {
+  const { user: username } = useHandleUser();
+  const [error, setError] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [detailsChat, setDetailsChat] = useState({});
 
-    const { user } = useHandleChat(); 
-    const [error, setError] = useState("")
-    const [accessUser, setAccessUser] = useState(false);
-    const [password, setPassword] = useState("");
-    const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState("");
-    const [detailsChat, setDetailsChat] = useState({})
-
-    
-    const handleSubmitPassword = (e) => {
-      e.preventDefault();
-      socket.emit("access_chat", { password, chatId, user }, (response) => {
-        if (response.ok) {
-          setAccessUser(response.access);
+  const sendPassword = (password) => {
+    return new Promise((resolve, reject) => {
+      socket.emit("join_chat", { password, chatId, username }, (res) => {
+        if (res.ok) {
+          resolve(res.access);
         } else {
-          setError(response.msg);
+          setError(res.msg);
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         }
       });
-      setPassword("");
+    });
+  };
+
+  const sendMessage = (message) => {
+    const newMsg = { message, username };
+    socket.emit("send_message", { chatId, newMsg });
+  };
+
+  useEffect(() => {
+    socket.emit("initial_data", chatId, (response) => {
+      setMessages(response);
+    });
+  }, [chatId]);
+
+  useEffect(() => {
+    const getDetailsChat = async () => {
+      try {
+        const res = await getChatId(chatId);
+        if (res) setDetailsChat(res);
+      } catch (error) {
+        console.log(error);
+      }
     };
-  
-    const submitSendMessage = (e) => {
-      e.preventDefault(); 
-      const newMsg = {
-        message,
-        username: user,
-      };
-      setMessages([...messages, newMsg]);
-      socket.emit("send_message", { chatId, newMsg });
-      setMessage("");
-    }
-  
-    useEffect(() => {
-      const getDetailsChat = async () => {
-        try {
-          const data = await getChatId(chatId);
-          const res = await data.json();
-          if (res) setDetailsChat(res[0]);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      getDetailsChat();
-    }, [chatId]);
-  
-  
-  const receiveMessage = (msg) => setMessages((state) => [...state, msg]);
-  
-    useEffect(() => {
-      socket.emit("initialData", chatId, (response) => {
-        setMessages(response)
-      });
-    }, [messages]);
-  
-    useEffect(() => {
-      socket.on("message", receiveMessage);
-      
-      return () => {
-        socket.off("message", receiveMessage);
-      };
-    }, []);
+    getDetailsChat();
+  }, [chatId]);
 
+  useEffect(() => {
+    const handleNewMessage = (newMsg) => {
+      setMessages((prevMessages) => [...prevMessages, newMsg]);
+    };
 
-    return {error, detailsChat, accessUser, handleSubmitPassword, submitSendMessage, setPassword, messages, setMessage, message, user}
-}
+    socket.on("message", handleNewMessage);
+
+    return () => {
+      socket.off("message", handleNewMessage);
+    };
+  }, [chatId]);
+
+  return {
+    error,
+    detailsChat,
+    sendPassword,
+    sendMessage,
+    messages,
+  };
+};

@@ -1,9 +1,9 @@
-import { createContext, useContext, useEffect,  useState } from "react";
-import { createNewChat } from "../helpers/createChat";
+import { createContext, useContext, useEffect, useState } from "react";
+import { logout } from "../helpers/logOut";
 
 const ContextChat = createContext();
 
-export const useHandleChat = () => {
+export const useHandleUser = () => {
   const context = useContext(ContextChat);
   if (!context) throw new Error("Contexto inalcanzable");
   return context;
@@ -11,26 +11,26 @@ export const useHandleChat = () => {
 
 export default function ProviderChat({ children }) {
   const [user, setUser] = useState("");
-  
+
   const loginUser = (username) => {
     setUser(username);
-    localStorage.setItem("user", username); 
+    localStorage.setItem("user", username);
   };
 
-  const createChat = async (data) => {
-    data.creator = user;
-    const response = await createNewChat(data);
+  const logoutUser = () => {
+    logout();
+    setUser("");
   };
 
   useEffect(() => {
-    const localUser = localStorage.getItem("user"); 
-    if(localUser) {
+    const localUser = localStorage.getItem("user");
+    if (localUser) {
       setUser(localUser);
     }
-  }, [])
-  
+  }, [user]);
+
   return (
-    <ContextChat.Provider value={{ createChat, loginUser, user }}>
+    <ContextChat.Provider value={{ loginUser, user, logoutUser }}>
       {children}
     </ContextChat.Provider>
   );

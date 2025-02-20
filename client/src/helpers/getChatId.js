@@ -1,10 +1,7 @@
+import { URL_API } from "../utils/url_api";
+
 export const getChatId = async (id) => {
-    const response = await fetch("http://localhost:4000/unique-chat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json", 
-          },
-          body: JSON.stringify({ id })
-    });
-    return response; 
+    const response = await fetch(`${URL_API}/unique-chat?id=${id}`);
+    const res = await response.json();
+    return res[0]; 
 }

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useHandleChat } from "../contexts/ContextChat";
+import { useHandleUser } from "../contexts/ContextChat";
 import { useNavigate } from "react-router-dom";
 import "../styles/login.css";
 
 export const Login = () => {
   const [username, setUsername] = useState("");
-  const {loginUser} = useHandleChat(); 
+  const {loginUser} = useHandleUser(); 
   const navigate = useNavigate();
 
   const handleSubmitUser = () => {

@@ -1,17 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/header.css";
-import { useHandleChat } from "../contexts/ContextChat";
-import { logout } from "../helpers/logOut";
-
+import { useHandleUser } from "../contexts/ContextChat";
 
 export const Header = () => {
-  const { user } = useHandleChat();
-  const navigate = useNavigate(); 
+  const { user, logoutUser } = useHandleUser();
+  const navigate = useNavigate();
 
-  const logoutUser = () => {
-    logout();
-    location.reload(); 
-    navigate("/")
+  const logout = () => {
+    logoutUser();
+    navigate("/");
   };
 
   return (
@@ -28,11 +25,11 @@ export const Header = () => {
         </Link>
         {!user ? (
           <Link className="link" to="/login">
-            Login
+            Crear usuario
           </Link>
         ) : (
-          <button className="btn-header-logout" onClick={logoutUser}>
-            Log out
+          <button className="btn-header-logout" onClick={logout}>
+            Cerrar sesión {user}
           </button>
         )}
       </nav>

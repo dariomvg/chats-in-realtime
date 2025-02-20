@@ -1,0 +1,13 @@
+.msg {
+    width: 220px;
+    height: auto;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    list-style: none;
+    background: #181818;
+  }
+  b {
+    color: #646cff;
+  }
+  
