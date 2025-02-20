@@ -56,7 +56,8 @@ CREATE TABLE messages (
 );
 ```
 
-### En el archivo de configDB.js esta la configuración de la base de datos, debes reemplazar con tus datos:
+### En el archivo de config.db.js esta la configuración de la base de datos, debes reemplazar con tus datos:
+### En el archivo de config.env.js están las variables de entorno exportadas que debes crear en el archivo .env
 
 ```js
 // reemplazar con tus datos
