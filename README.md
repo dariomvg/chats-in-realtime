@@ -1,12 +1,10 @@
 # Aplicación de chat en tiempo real
 
-<img src="https://i.imgur.com/QfFDnTa.png" title="source: imgur.com" />
-
-> Puedes crear tus propios chats privados e invitando a quien quieras, donde otros usuarios podrán ingresar siempre que tengan la contraseña del chat.
+> Puedes crear tus propios chats y colocarlos global para que cualquiera pueda acceder y hablar
 
 ### Notas:
 - NO está desplegada en ningún sitio
-- Está creada con PostgreSQL(Base de datos), ReactJS(Front-end) y ExpressJS(servidor)
+- Está creada con PostgreSQL(Base de datos), ReactJS(Front-end), ExpressJS(servidor), Cloudinary(Archivos binarios como audios)
 
 
 ## 1- Inicializar proyecto  
@@ -32,14 +30,16 @@ npm install
 
 ## 2- Back-end
 
-### Necesitas crear las bases de datos, con postgreSQL: 
+### Necesitas crear la base de datos(con postgreSQL) con estas tablas: 
 
 ```js
 CREATE TABLE chats (  
     id SERIAL NOT NULL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    creator VARCHAR(255) NOT NULL
+    creator VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    global BOOLEAN NOT NULL,
+    date VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE users (  
@@ -52,32 +52,36 @@ CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     chatId INT REFERENCES chats(id) ON DELETE CASCADE,
     username VARCHAR(255) NOT NULL,
-    messages VARCHAR(255) NOT NULL
+    content TEXT NOT NULL,
+    date VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    id_audio TEXT
 );
-```
 
-### En el archivo de config.db.js esta la configuración de la base de datos, debes reemplazar con tus datos:
-### En el archivo de config.env.js están las variables de entorno exportadas que debes crear en el archivo .env
+CREATE TABLE users_auth(  
+    id SERIAL NOT NULL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+```  
 
-```js
-// reemplazar con tus datos
-export const sql = postgres({
-    host: "***",
-    port: ***,
-    database: "***",
-    username: "***",
-    password: "***",
-  });
-```
+### Configuraciones
+
+> En el archivo options/config.db.js está la configuración de la base de datos, debes reemplazar con tus datos.  
+> En el archivo de options/config.env.js están las variables de entorno exportadas que debes crear en tu archivo ".env".  
 
 ## 3- Visitar
 
-### En la raiz del proyecto y en client ejecutar:
+### En la raiz del proyecto y en /client ejecutar:
 
 ```js
     npm run dev
 ```
-### visitar: http://localhost:5173
+
+### visitar:
+
+#### cliente: http://localhost:5173
+#### servidor: http://localhost:4000
 
 
 
