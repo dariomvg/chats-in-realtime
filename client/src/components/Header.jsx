@@ -3,33 +3,35 @@ import "../styles/header.css";
 import { useHandleUser } from "../contexts/ContextChat";
 
 export const Header = () => {
-  const { user, logoutUser } = useHandleUser();
-  const navigate = useNavigate();
-
-  const logout = () => {
-    logoutUser();
-    navigate("/");
-  };
+  const { logOut, username } = useHandleUser();
+  const navigate = useNavigate(); 
+  const logoutUser = async () => {
+    const result = await logOut();
+    if(result.ok) navigate("/");
+  }
 
   return (
     <header className="header">
       <nav className="nav">
-        <Link className="link" to="/">
-          Principal
-        </Link>
         <Link className="link" to="/chats">
-          Chats
+          Tus Chats
         </Link>
-        <Link className="link" to="/crear">
-          Crear
+        <Link className="link" to="/nuevo/chat">
+          Nuevo chat
         </Link>
-        {!user ? (
-          <Link className="link" to="/login">
-            Crear usuario
+        <Link className="link" to="/global/chats">
+          Chats globales
+        </Link>
+        <Link className="link" to="/configuracion">
+          Configuración
+        </Link>
+        {!username ? (
+          <Link className="link login" to="/registro/usuario">
+            Iniciar sesión
           </Link>
         ) : (
-          <button className="btn-header-logout" onClick={logout}>
-            Cerrar sesión {user}
+          <button className="btn-header-logout" onClick={logoutUser}>
+            Cerrar sesión
           </button>
         )}
       </nav>

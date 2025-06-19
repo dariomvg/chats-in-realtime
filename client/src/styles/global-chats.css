@@ -1,0 +1,34 @@
+.main-global-chats {
+width: 70%;
+height: 100vh; 
+padding: 70px 10px 10px 10px; 
+margin: auto;
+}
+.title-global-chats {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.section-global-chats {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex; 
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

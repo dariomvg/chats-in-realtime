@@ -1,13 +1,13 @@
 import "../styles/card-message.css";
 
-export const CardMessage = ({ message }) => {
-
+export const CardMessage = ({ username, date, content }) => {
   return (
     <li className="msg">
-      <p>
-        <b>{message.username}: </b>
-        {message.messages}
-      </p>
+      <div className="container-msg">
+        <p>{username}</p>
+        <strong>{date}</strong>
+      </div>
+      <p className="content-msg">{content}</p>
     </li>
   );
 };

@@ -1,0 +1,77 @@
+.card-config {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #121212;
+  border-radius: 5px;
+  padding: 10px;
+}
+.content-card-config {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title-card-config {
+  transition: color 0.5s;
+  color: #fff;
+}
+.title-card-config:hover {
+  transition: color 0.5s;
+  color: #fff;
+}
+
+.container-card-config {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.button-view-config {
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  transition: color 0.5s;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 6px;
+}
+
+.password-card-config {
+  color: #fff;
+  font-size: 16px;
+  transition: 0.5s;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.view-pass {
+  transition: 0.5s;
+  visibility: visible;
+  opacity: 1;
+}
+
+.icon-delete {
+  cursor: pointer;
+}
+
+
+.title-global-config {
+  color: #fff; 
+  font-size: 16px;
+}
+
+.button-change-config {
+  background-color: transparent;
+  border: none; 
+  font-size: 14px;
+  cursor: pointer; 
+  transition: color .5s;
+  color: #195ad2;
+}
+
+.button-change-config:hover {
+  color: #278bd6; 
+  transition: color .5s;
+}

@@ -1,0 +1,14 @@
+.card-aside {
+  width: 100%;
+  padding: 10px;
+  background-color: #101010;
+  color: #ccc;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.card-aside:hover {
+  color: #fff;
+  background-color: #181818;
+}

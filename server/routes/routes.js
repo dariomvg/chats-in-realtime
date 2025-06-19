@@ -1,13 +1,24 @@
 import { Router } from "express";
-import { sql } from "./config.db.js";
+import { sql } from "../options/config.db.js";
+import {deleteAllAudios} from "../controllers/deleteAllAudios.js"
 export const router = Router();
 
 router.get("/chats", async (req, res) => {
+  const { creator } = req.query;
   try {
-    const chats = await sql`SELECT * FROM chats`;
+    const chats = await sql`SELECT * FROM chats WHERE creator=${creator}`;
     return res.json(chats);
   } catch (error) {
     console.error("Error al recuperar los chats", error);
+  }
+});
+
+router.get("/global-chats", async (req, res) => {
+  try {
+    const chats = await sql`SELECT * FROM chats WHERE global=true`;
+    return res.json(chats);
+  } catch (error) {
+    console.error("Error al recuperar los chats globales", error);
   }
 });
 
@@ -18,7 +29,7 @@ router.get("/unique-chat", async (req, res) => {
     const chat = await sql`SELECT * FROM chats WHERE id=${id}`;
     if (chat.length === 0) {
       res.json({
-        ok: flase,
+        ok: false,
         message: "Error al recuperar chat, intenta más tarde",
       });
     }
@@ -34,7 +45,7 @@ router.delete("/delete-chat", async (req, res) => {
   try {
     const chat =
       await sql`DELETE FROM chats WHERE id=${id} AND creator=${username} RETURNING *`;
-
+    await deleteAllAudios(id);
     if (chat.length === 0) {
       return res.json({
         ok: false,
@@ -48,12 +59,23 @@ router.delete("/delete-chat", async (req, res) => {
 });
 
 router.post("/create-chat", async (req, res) => {
-  const { title, password, creator } = req.body;
+  const { title, creator, description, global, date } = req.body;
 
   try {
-    await sql`INSERT INTO chats (title, password, creator) VALUES (${title},${password},${creator})`;
+    await sql`INSERT INTO chats (title, creator, description, global, date) VALUES (${title},${creator},${description},${global},${date})`;
     return res.json({ status: "chat creado correctamente" });
   } catch (error) {
     console.error("Error al crear chat", error);
+  }
+});
+
+router.post("/change-global", async (req, res) => {
+  const { global, id } = req.body;
+
+  try {
+    await sql`UPDATE chats SET global=${global} WHERE id=${id};`;
+    return res.json({ status: "chat actualizado correctamente" });
+  } catch (error) {
+    console.error("Error al actualizar chat", error);
   }
 });

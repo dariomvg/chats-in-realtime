@@ -1,5 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { logout } from "../helpers/logOut";
+import {
+  checkSession,
+  loginUser,
+  logoutUser,
+  signUpUser,
+} from "../helpers/auth";
 
 const ContextChat = createContext();
 
@@ -10,27 +15,70 @@ export const useHandleUser = () => {
 };
 
 export default function ProviderChat({ children }) {
-  const [user, setUser] = useState("");
+  const [username, setUsername] = useState("");
+  const [messageLogin, setMessageLogin] = useState("");
+  const [messageSign, setMessageSign] = useState("");
+  const [msgUserSign, setMsgUserSign] = useState("");
 
-  const loginUser = (username) => {
-    setUser(username);
-    localStorage.setItem("user", username);
+  const login = async (user) => {
+    const data = await loginUser(user);
+    if (!data.ok) {
+      setMessageLogin(data.detail);
+      setTimeout(() => {
+        setMessageLogin("");
+      }, 5000);
+      return;
+    }
+    setUsername(data.username);
+    return data;
   };
 
-  const logoutUser = () => {
-    logout();
-    setUser("");
+  const signUp = async (user) => {
+    const data = await signUpUser(user);
+    if (!data.ok) {
+      setMessageSign(data.detail);
+      setTimeout(() => {
+        setMessageSign("");
+      }, 5000);
+      return;
+    }
+    setMsgUserSign("Usuario agregado. Inicia sesión");
+    setTimeout(() => {
+      setMsgUserSign("");
+    }, 5000);
+  };
+
+  const logOut = async () => {
+    const data = await logoutUser();
+    if (data.ok) {
+      setUsername("");
+    }
+    return data;
   };
 
   useEffect(() => {
-    const localUser = localStorage.getItem("user");
-    if (localUser) {
-      setUser(localUser);
-    }
-  }, [user]);
+    const checkUserSession = async () => {
+      const data = await checkSession();
+      if (!data.ok) {
+        return;
+      }
+      setUsername(data.username);
+    };
+    checkUserSession();
+  }, []);
 
   return (
-    <ContextChat.Provider value={{ loginUser, user, logoutUser }}>
+    <ContextChat.Provider
+      value={{
+        username,
+        login,
+        signUp,
+        logOut,
+        setMessageSign,
+        messageSign,
+        messageLogin,
+        msgUserSign,
+      }}>
       {children}
     </ContextChat.Provider>
   );

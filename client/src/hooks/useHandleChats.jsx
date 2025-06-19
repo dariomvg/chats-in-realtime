@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { getChats } from "../helpers/getChats";
-import { removeChat } from "../helpers/deleteChat";
+import { useState } from "react";
+import { removeChat } from "../helpers/delete_chat";
 import { useHandleUser } from "../contexts/ContextChat";
-import { createNewChat } from "../helpers/createChat";
+import { createNewChat } from "../helpers/create_chat";
+import { changeGlobal } from "../helpers/change_global";
+import { getSecondDate, getLocalHour } from "format-all-dates";
 
 export const useHandleChats = () => {
-  const [chats, setChats] = useState([]);
   const [error, setError] = useState("");
-  const { user } = useHandleUser();
+  const { username } = useHandleUser();
 
   const deleteChat = async (id) => {
-    const response = await removeChat(id, user);
+    const response = await removeChat(id, username);
 
     if (!response.ok) {
       setError(response.message);
@@ -19,24 +19,21 @@ export const useHandleChats = () => {
       }, 3000);
       return;
     }
-    window.location.reload();
   };
 
   const createChat = async (data) => {
-    await createNewChat({ ...data, creator: user });
+    const date = `${getSecondDate()}, ${getLocalHour()}Hs`;
+    await createNewChat({ ...data, creator: username, date });
   };
 
-  useEffect(() => {
-    const getAllChats = async () => {
-      try {
-        const localChats = await getChats();
-        setChats(localChats);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllChats();
-  }, []);
+  const changeGlobalChat = async (global, id) => {
+    await changeGlobal(global, id);
+  };
 
-  return { chats, deleteChat, createChat, error };
+  return {
+    deleteChat,
+    createChat,
+    changeGlobalChat,
+    error,
+  };
 };

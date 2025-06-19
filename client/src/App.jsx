@@ -2,22 +2,24 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
+  Navigate
 } from "react-router-dom";
 import Home from "./pages/Home";
 import { Chat } from "./pages/Chat";
-import { Chats } from "./pages/Chats";
 import { Header } from "./components/Header";
 import { Create } from "./pages/Create";
 import { Login } from "./pages/Login";
 import "./styles/App.css";
-import { Password } from "./pages/Password";
+import { LayoutChats } from "./components/LayoutChats";
+import { HomeChat } from "./pages/HomeChat";
+import { Config } from "./pages/Config";
+import { GlobalChats } from "./pages/GlobalChats";
+import { useHandleUser } from "./contexts/ContextChat";
 
-function PrivateRoute({ element }) {
-  const isAuthenticated = localStorage.getItem("user");
-
-  return isAuthenticated ? element : <Navigate to="/login" />;
-}
+function PrivateRoute ({ element })  {
+  const { username } = useHandleUser();
+  return username ? element : <Navigate to="/registro/usuario" />;
+};
 
 function App() {
   return (
@@ -25,18 +27,33 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+
         <Route
-          path="/password/:chatId"
-          element={<PrivateRoute element={<Password />} />}
+          path="/nuevo/chat"
+          element={<PrivateRoute element={<Create />} />}
         />
+
         <Route
-          path="/chat/:chatId"
-          element={<PrivateRoute element={<Chat />} />}
+          path="/chats"
+          element={<PrivateRoute element={<LayoutChats />} />}>
+          <Route path="/chats" element={<HomeChat />} />
+          <Route
+            path="/chats/chat/:chatId"
+            element={<PrivateRoute element={<Chat />} />}
+          />
+        </Route>
+
+        <Route
+          path="/global/chats"
+          element={<PrivateRoute element={<GlobalChats />} />}
         />
-        <Route path="/chats" element={<PrivateRoute element={<Chats />} />} />
-        <Route path="/crear" element={<PrivateRoute element={<Create />} />} />
-        <Route path="*" element={<h1>Not found 404</h1>} />
+
+        <Route
+          path="/configuracion"
+          element={<PrivateRoute element={<Config />} />}
+        />
+
+        <Route path="/registro/usuario" element={<Login />} />
       </Routes>
     </Router>
   );

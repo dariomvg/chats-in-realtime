@@ -1,13 +1,35 @@
 .msg {
-    width: 220px;
-    height: auto;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    list-style: none;
-    background: #181818;
-  }
-  b {
-    color: #646cff;
-  }
-  
+  width: 50%;
+  height: auto;
+  padding: 10px;
+  border-radius: 5px;
+  list-style: none;
+  background: #181818;
+  display: flex; 
+  flex-direction: column;
+  gap: 4px;
+}
+
+.container-msg {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-msg p {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.container-msg strong {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.content-msg {
+  font-size: 16px;
+  color: #fff;
+}
+
+

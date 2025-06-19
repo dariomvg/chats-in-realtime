@@ -1,5 +1,7 @@
 export const objChat = {
     title: "",
-    password: "",
     creator: "",
+    description: "",
+    global: false,
+    date: "",
   };

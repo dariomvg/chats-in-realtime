@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { objChat } from "../utils/objectChat";
+import { objChat } from "../utils/object_chat";
 import { useHandleChats } from "../hooks/useHandleChats";
 import "../styles/create.css";
 
@@ -16,43 +16,57 @@ export const Create = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formChat.password.length > 6 || formChat.password.length < 4) {
-      setMsg("La contraseña debe ser de 4 a 6 caracteres");
+    e.preventDefault();  
+ 
+    if (formChat.title.length > 10) {
+      setMsg("Título máximo 10 caracteres");
       return;
     }
-    if (formChat.title.length > 10) {
-      setMsg("El título no debe superar los 10 caracteres");
+    if (formChat.description.length >= 200) {
+      setMsg("Descripción máximo 200 caracteres");
       return;
     }
     createChat(formChat);
     setFormChat(objChat);
-    navigate("/");
+    navigate("/chats");
   };
 
   return (
     <section className="sec-form-create">
       <form onSubmit={handleSubmit} className="form-create-chat">
-        <h1>Crear chat</h1>
+        <h1>Nuevo chat</h1>
         {msg && <p className="title-message">{msg}</p>}
         <input
           type="text"
-          placeholder="nombre del chat"
+          placeholder="Nombre del chat"
           name="title"
           value={formChat.title}
           onChange={handleChange}
           required
           className="input-create"
         />
-        <input
-          type="text"
-          placeholder="Crea contraseña para el chat"
-          name="password"
-          value={formChat.password}
+        <textarea
+          placeholder="Descripcion de chat..."
+          name="description"
+          value={formChat.description}
           onChange={handleChange}
-          className="input-create"
+          className="input-create textarea"
           required
+          rows={4}
         />
+        <div className="container-input-create">
+          <label htmlFor="global">¿Quieres que el chat sea global?</label>
+          <input
+            type="checkbox"
+            name="global"
+            id="global"
+            value={formChat.global}
+            onChange={(e) =>
+              setFormChat({ ...formChat, global: e.target.checked })
+            }
+          />
+        </div>
+
         <button type="submit" className="btn-create">
           Crear
         </button>

@@ -1,0 +1,50 @@
+.container-btn-audio {
+  position: relative;
+}
+
+.btn-chat {
+  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.container-reconding {
+  width: 200px;
+  position: absolute;
+  bottom: 40px;
+  right:0;
+  border-radius: 30px;
+  padding: 8px;
+  background-color: #202020;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title-record {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.record-audio-pin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  animation: record 1s ease alternate-reverse infinite;
+}
+
+@keyframes record {
+  0% {
+    background-color: #208d20;
+    box-shadow: 0 0 10px #208d20;
+  }
+
+  100% {
+    background-color: #30c830;
+    box-shadow: 0 0 10px #30c830;
+  }
+}

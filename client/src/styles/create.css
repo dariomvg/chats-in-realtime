@@ -1,18 +1,21 @@
 .sec-form-create {
     width: 100%;
     height: 100vh;
-    background-color: #090909;
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   .form-create-chat {
     width: 500px;
     display: flex;
     flex-direction: column;
     gap: 14px;
     border-radius: 5px;
+    background-color: #101010;
+    padding: 10px;
   }
+
   .form-create-chat h1 { 
     color: #fff;
   }
@@ -26,9 +29,12 @@
     font-size: 16px;
     padding: 10px;
   }
+  .textarea {
+    resize: none;
+  }
   
   .input-create:focus{
-    border-color: #646cff;
+    border-color: #fff;
   }
   
   .input-create::placeholder {
@@ -39,31 +45,38 @@
     padding: 10px;
     border-radius: 5px;
     background: transparent;
-    color: #fff;
+    color: #ccc;
     font-weight: 500;
     font-size: 16px;
-    border: 1px solid #eee;
+    border: 1px solid #808080;
     cursor: pointer;
     transition: .5s;
   }
   .btn-create:hover {
-    border-color: #646cff;
-    background-color: #646cff;
+    background-color: #fff;
+    border-color: #fff;
+    color: #000;
     transition: .5s;
-  }
-
-  h3 {
-    color: #fff;
-  }
-  
-  strong {
-    color: #ddd;
   }
 
   .title-message {
     color: #f13434;
     padding-bottom: 10px;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
   }
   
+  .container-input-create {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+.container-input-create label {
+  color: #ccc;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+
+
